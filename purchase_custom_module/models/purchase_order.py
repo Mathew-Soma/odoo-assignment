@@ -20,7 +20,6 @@ class PurchaseOrder(models.Model):
         vendor_ids = vals.get('vendor_ids')
         if vendor_ids:
             rfqs = []
-            # vendor_ids is a list of (6, 0, [ids]) or (4, id) commands
             if isinstance(vendor_ids[0], (list, tuple)) and vendor_ids[0][0] == 6:
                 vendor_ids = vendor_ids[0][2]
             else:
@@ -29,7 +28,6 @@ class PurchaseOrder(models.Model):
             for partner_id in vendor_ids:
                 new_vals = vals.copy()
                 new_vals['partner_id'] = partner_id
-                # each RFQ has only one vendor
                 new_vals.pop('vendor_ids', None)
                 rfq = super(PurchaseOrder, self).create(new_vals)
                 rfqs.append(rfq)

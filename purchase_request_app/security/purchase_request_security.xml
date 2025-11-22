@@ -1,0 +1,21 @@
+<odoo>
+    <record id="module_category_purchase_request" model="ir.module.category">
+        <field name="name">Purchase Request Management</field>
+        <field name="sequence">15</field>
+    </record>
+
+    <!-- Employee -->
+    <record id="group_purchase_request_employee" model="res.groups">
+        <field name="name">Employee</field>
+        <field name="category_id" ref="purchase_request_app.module_category_purchase_request"/>
+        <field name="comment">Can create and submit purchase requests only.</field>
+    </record>
+
+    <!-- Procurement Officer -->
+    <record id="group_procurement_officer" model="res.groups">
+        <field name="name">Procurement Officer</field>
+        <field name="category_id" ref="purchase_request_app.module_category_purchase_request"/>
+        <field name="comment">Can approve, reject, and generate RFQs.</field>
+    </record>
+</odoo>
+

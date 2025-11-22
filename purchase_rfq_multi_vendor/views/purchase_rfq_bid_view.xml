@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <!-- 🔹 TREE (LIST) VIEW -->
+    <record id="view_purchase_rfq_bid_tree" model="ir.ui.view">
+      <field name="name">purchase.rfq.bid.tree</field>
+      <field name="model">purchase.rfq.bid</field>
+      <field name="arch" type="xml">
+        <list string="Supplier Bids" editable="bottom">
+          <field name="partner_id"/>
+          <field name="price_unit"/>
+          <field name="delivery_days"/>
+          <field name="date_deadline"/>
+          <field name="state"/>
+          <field name="is_winner" widget="boolean_toggle" readonly="1"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- 🔹 FORM VIEW -->
+    <record id="view_purchase_rfq_bid_form" model="ir.ui.view">
+      <field name="name">purchase.rfq.bid.form</field>
+      <field name="model">purchase.rfq.bid</field>
+      <field name="arch" type="xml">
+        <form string="Supplier Bid">
+          <sheet>
+            <group>
+              <field name="order_id"/>
+              <field name="partner_id"/>
+              <field name="price_unit"/>
+              <field name="delivery_days"/>
+              <field name="date_deadline"/>
+              <field name="remarks"/>
+              <field name="notes"/>
+              <field name="state"/>
+              <field name="is_winner" readonly="1"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+  </data>
+</odoo>

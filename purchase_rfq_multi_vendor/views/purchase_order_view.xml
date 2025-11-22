@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <record id="view_order_form_inherit_partner_ids" model="ir.ui.view">
+      <field name="name">purchase.order.form.inherit.partner.ids</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form"/>
+      <field name="arch" type="xml">
+
+        <!-- Hide the original single-vendor field -->
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <!-- Add the new multi-vendor field right after -->
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="partner_ids" widget="many2many_tags" string="Vendors"/>
+        </xpath>
+
+        <xpath expr="//field[@name='partner_ids']" position="before">
+          <field name="winning_vendor_id" readonly="1" invisible="state in ('draft','sent')"/>
+        </xpath>
+
+
+        <!-- Add Vendor Bids Tab -->
+        <xpath expr="//sheet/notebook" position="inside">
+          <page string="Vendor Bids">
+            <field name="bid_ids" mode="list,form" context="{'default_order_id': id}">
+              <list editable="bottom">
+                <field name="partner_id"/>
+                <field name="price_unit"/>
+                <field name="delivery_days"/>
+                <field name="remarks"/>
+                <field name="date_deadline"/>
+                <field name="state"/>
+              </list>
+
+              <form string="Bid Details">
+                <group>
+                  <field name="partner_id"/>
+                  <field name="price_unit"/>
+                  <field name="delivery_days"/>
+                  <field name="remarks"/>
+                  <field name="date_deadline"/>
+                  <field name="state"/>
+                  <field name="notes"/>
+                </group>
+              </form>
+            </field>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

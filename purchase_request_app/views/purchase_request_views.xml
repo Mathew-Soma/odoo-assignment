@@ -1,0 +1,98 @@
+<odoo>
+    <record id="view_purchase_request_form" model="ir.ui.view">
+        <field name="name">purchase.request.form</field>
+        <field name="model">purchase.request</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Request">
+                <header>
+                    <!-- Employee: Submit button (only in draft) -->
+                    <button name="action_submit"
+                            type="object"
+                            string="Submit"
+                            class="oe_highlight"
+                            groups="purchase_request_app.group_purchase_request_employee"
+                            invisible="state != 'draft'"/>
+
+                    <!-- Employee: Pending Approval (after submit) -->
+                    <button name="pending_info"
+                            type="object"
+                            string="Pending Approval"
+                            class="oe_highlight"
+                            groups="purchase_request_app.group_purchase_request_employee"
+                            invisible="state != 'submitted'"
+                            disabled="1"/>
+
+                    <!-- Employee: Approved (after procurement approval) -->
+                    <button name="approved_info"
+                            type="object"
+                            string="Approved"
+                            class="btn-success"
+                            groups="purchase_request_app.group_purchase_request_employee"
+                            invisible="state != 'approved'"
+                            disabled="1"/>
+
+                    <!-- Procurement Officer: Create RFQ (visible only after approval) -->
+                    <button name="action_create_rfq"
+                            type="object"
+                            string="Create RFQ"
+                            class="btn-primary"
+                            groups="purchase_request_app.group_procurement_officer"
+                            invisible="state != 'approved'"/>
+
+
+                    <!-- Procurement Officer: Approve -->
+                    <button name="action_approve"
+                            type="object"
+                            string="Approve"
+                            class="btn-primary"
+                            groups="purchase_request_app.group_procurement_officer"
+                            invisible="state != 'submitted'"/>
+
+                    <!-- Procurement Officer: Reject -->
+                    <button name="action_cancel"
+                            type="object"
+                            string="Reject"
+                            class="btn-secondary"
+                            groups="purchase_request_app.group_procurement_officer"
+                            invisible="state != 'submitted'"/>
+
+                    <field name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,submitted,approved,to_rfq,cancelled"/>
+                </header>
+
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                        <field name="request_date"/>
+
+                        <!-- Suggested Vendors -->
+                        <!-- <field name="vendor_ids"
+                               string="Add Vendors"
+                               widget="many2many_tags"
+                               groups="purchase_request_app.group_procurement_officer"
+                               /> -->
+
+                        <field name="rfq_id" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Request Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="feedback"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
